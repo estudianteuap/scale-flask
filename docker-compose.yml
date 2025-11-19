@@ -1,0 +1,27 @@
+#version: '3'
+
+services:
+  flask:
+    #image: crismontes/flask_app:latest
+    #image: flask_backend_scale:latest
+    #image: crismontes/scale-flask:latest
+    image: scale-flask:latest
+    environment:
+      - FLASK_ENV=development
+    networks:
+      - app-network
+
+  nginx:
+    container_name: nginx_flask
+    #image: crismontes/flask_nginx:latest
+    image: flask_nginx:latest
+    ports:
+      - "9092:80"
+    depends_on:
+      - flask
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
